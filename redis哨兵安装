@@ -1,0 +1,47 @@
+redis哨兵主从安装 
+	三台云服务器搭建的redis哨兵 
+	1.官网上下载,放到linux上 
+	2.解压 tar -zxvf  ,可以用mv 修改下文件名
+	3.进入文件夹 make
+	4.进入src make install
+	5.修改 redis.conf,vi命令用的不习惯的可以用FileZilla 在线编辑
+	哨兵具体修改属性
+		打开aof appendonly yes(aof日志每一个操作都记录模式)
+		requirepass  redis密码
+		logfile 可以指定日志目录
+		dir 可以指定数据存放目录
+		bind 120.0.0.1 注释掉 要不然外部不能连接
+		protected-mode no  //关闭保护模式
+	如果设置密码的话
+		masterauth 也要设置密码
+	启动 bin目录下 redis-server redis.conf
+
+	三台依次启动 
+	ip 01(主), ip 02(从), ip 03(从)
+	主从搭建
+	在从服务器上进入ip02 redis bin目录下 先登录 redis-cli -p 端口(redis端口)
+	如果设置了密码 
+	auth xxxx(密码)
+	SLAVEOF 01 3824  (表示02是01的从库)
+	进入ip03服务
+	重复操作即可
+	info replication (依然 redis-cli -p 端口下)查看主从信息
+	
+	哨兵搭建
+	编辑 sentinel.conf文件
+	dir指定data文件存放目录
+	logfile 指定日志存放目录
+	port哨兵端口 修改 
+	sentinel monitor <master-name>(可以随便起) <ip>(监控的masterip) <redis-port>(监控的master端口) <quorum>(指明当有多少个sentinel认为一个master失效时)
+	在云服务器使用哨兵时 sentinel-announce-ip 公网ip(外网可以访问)
+		一定不要忘记填写 ,否则哨兵之间无法通信,默认使用了内网ip (当时找了一天的问题,最后一个一个翻译了一下)
+	其他的可以不用修改就可以用
+	
+	redis-sentinel sentinel.conf 启动哨兵 三台依次启动
+	
+	启动完成之后可以看日志 slave+ sentinel+ 基本算是成功
+	杀掉主库,在使用info-replication 查看一下 主从库信息,如果主库更换就表示成功了
+	
+	
+	
+	
