@@ -44,4 +44,6 @@ redis哨兵主从安装
 	
 	
 	
-	
+	redis一点点优化 为了防止被远程主机关闭 可以对 redis.conf 的timeout 和tcp-keepalive 进行修改
+	timeout client连接空闲多久会被关闭
+	redis服务端主动向空闲的客户端发起ack请求，以判断连接是否有效
