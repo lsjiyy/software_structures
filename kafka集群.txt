@@ -1,0 +1,19 @@
+kafka集群搭建
+
+wget 下载或者官网下载包
+解压
+
+修改 config/server.properties
+
+在集群中 broker.id=1 唯一
+
+
+zookeeper.connect=118.89.238.168:2181,49.234.205.96:2181,47.104.60.115:2181
+
+#kafka后台启动命令
+./kafka-server-start.sh -daemon ../config/server.properties
+
+部署集群 需要修改server.properties文件中的 两个listen
+第一个 改为内网ip:9092  listeners  就是主要用来定义Kafka Broker的Listener的配置项
+第二个 公网ip:9092 advertised_listeners 参数的作用就是将Broker的Listener信息发布到Zookeeper中
+ 

@@ -1,0 +1,30 @@
+redis环境安装 
+	1.下载 
+	2.解压
+	3.进入文件夹 make
+	4.进入src make install
+	5.修改 redis.conf
+
+
+
+//redis 集群创建命令
+redis-cli --cluster create 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 127.0.0.1:7006 --cluster-replicas 1 -a 密码
+
+//查看集群信息
+redis-cli --cluster check 118.89.238.168:7002 -a 2927213lsjyy
+
+//添加节点 给Master主节点7001添加一个从节点7008：
+redis-cli --cluster add-node 118.89.238.168:7004 118.89.238.168:7002 --cluster-slave --cluster-master-id 4bbf7ab678348c5e1d23dbeb7c1a977fd65f7d1a -a 2927213lsjyy
+
+//主节点才能增加卡槽
+redis-cli --cluster reshard 118.89.238.168:3824 -a 2927213lsjyy
+
+
+//删除从节点
+redis-cli --cluster del-node 118.89.238.168:3824  9ae157a323e847d3bfa4bf47e5b115ca38ef9f3d -a 2927213lsjyy
+
+//添加主节点
+redis-cli --cluster add-node 118.89.238.168:3824 118.89.238.168:7001 -a 2927213lsjyy
+
+//平分插槽
+redis-cli --cluster rebalance --cluster-threshold 1 118.89.238.168:7001 -a 2927213lsjyy

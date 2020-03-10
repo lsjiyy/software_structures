@@ -1,0 +1,18 @@
+nginx安装
+	在CentOS 8系统中安装Nginx
+
+	从CentOS 8开始，Nginx软件包在默认的CentOS存储库中可用。
+
+	在CentOS 8系统中安装Nginx只需输入以下命令即可：
+	//安装nginx
+	1.sudo yum install nginx
+	// 开机自启
+	2.sudo systemctl enable nginx
+	//启动nginx
+	3.sudo systemctl start nginx
+	//查看nginx是否运行
+	4.sudo systemctl status nginx
+	//重启
+	5.sudo systemctl reload nginx
+	//停止
+	6.sudo systemctl stop nginx

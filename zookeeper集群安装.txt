@@ -1,0 +1,67 @@
+1.weget下载
+2.解压
+3.更改文件名称zookeeper mv zookeeper-3.4.6 zookeeper
+4.配置环境变量 
+  export ZOO_HOME=/usr/local/zookeeper
+  export PATH=$ZOO_HOME/bin:$PATH
+5.加载环境变量 source /etc/profile 
+6.zoo_sample.cfg配置文件修改为zoo.conf。
+7. 3.5.5版本会占用8080端口 在配置文件 zoo.cfg 添加 admin.serverPort= 未被占用的端口
+8. 若要布置zk集群 至少需要三个节点
+	zk集群若是在云服务器部署需要在 zoo.cfg中添加属性
+
+	#用以监听所有网卡
+	quorumListenOnAllIPs=true
+9.配置集群
+在zoo.cfg中添加服务属性
+#server.myid=IP:Port1:Port2,
+#myid是服务器的编号，一个正整数，一般是0、1、2、3等待，port1表示的是服务器与集群中的Leader服务器交换信息的端口，一般用2288，
+#Port2表示的是万一集群中的Leader服务器宕机了，需要一个端口来重新进行宣讲，选出一个新的Leader，一般用3388
+server.myid1=IP:Port1:Port2
+server.myid2=IP:Port1:Port2
+server.myid3=IP:Port1:Port2
+对外放开 clientPort端口
+
+
+在springboot中 new zookeeper() 中可以多台zk服务器地址
+zkCli.sh -server ip+端口(2181) 连接zk
+ls / 查看根节点
+####################################################################
+完整配置
+
+#tickTime用于配置Zookeeper中最小时间单元的长度，很多运行时的时间间隔都是使用tickTime的倍数来表示的。
+tickTime=2000
+
+#用于配置Leader服务器等待Follower启动，并完成数据同步的时间。正整数 表示是tockTime的10倍
+initLimit=10
+
+#用于配置Leader服务器和Follower之间进行心跳检测的最大延时时间，
+#在Zookeeper运行期间，Leader服务器会与所有的Follower进行心跳检测来确定该服务器是否存活。
+#如果在syncLimit时间内无法获取到Follower的心跳检测响应，就认为Follower已经脱离了和自己的同步。在网络环境较差时，可以适当调大这个参数。
+syncLimit=5
+
+#工作空间
+dataDir=/usr/local/software/zookeeper/data
+
+#客户端端口
+clientPort=2181
+
+#从Socket层面限制单个客户端与单台服务器之间的并发连接数，即以ip地址来进行连接数的限制。
+#如果设置为0，表示不做任何限制。仅仅是单台客户端与单个Zookeeper服务器连接数的限制，不能控制所有客户端的连接数总和。
+#maxClientCnxns=60
+
+
+#autopurge.snapRetainCount=3
+
+#autopurge.purgeInterval=1
+
+#用以监听所有网卡
+quorumListenOnAllIPs=true
+
+#server.myid=IP:Port1:Port2,
+#myid是服务器的编号，一个正整数，一般是0、1、2、3等待，port1表示的是服务器与集群中的Leader服务器交换信息的端口，一般用2288，
+#Port2表示的是万一集群中的Leader服务器宕机了，需要一个端口来重新进行宣讲，选出一个新的Leader，一般用3388
+
+server.1=ip:2288:3388
+server.2=ip:2288:3388
+server.3=ip:2288:3388
