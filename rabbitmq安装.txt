@@ -1,0 +1,34 @@
+rabbitmq安装
+
+rabbitmq 安装环境需要erlang
+解压
+进入解压目录
+设定安装规则
+./configure --prefix=/usr/local/erlang --with-ssl --enable-threads --enable-smp-support --enable-kernel-poll --enable-hipe --without-javac
+make&&make install
+配置环境变量
+#erlang
+ERL_PATH=/usr/local/software/erlang/bin
+PATH=$ERL_PATH:$PATH
+刷新环境变量
+source /etc/profile
+检验erlang是否安装成功
+erl
+退出用 halt().
+
+rabbitmq 下载解压 配置环境变量
+
+#rabbit
+export PATH=$PATH:/usr/local/software/rabbitmq/sbin
+添加用户
+rabbitmqctl add_user 用户名 密码
+赋予用户权限
+rabbitmqctl  set_permissions -p "/" 用户名 '.*' '.*' '.*'
+赋予用户角色
+rabbitmqctl set_user_tags admin administrator
+开启mq控制台
+rabbitmq-plugins enable rabbitmq_management
+
+rabbitmq-server -daemon 启动
+rabbitmqctl stop rabbitmq关闭
+rabbitmq-server -detached  启动
