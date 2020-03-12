@@ -1,0 +1,50 @@
+内置tomcat
+最小空闲线程数  min-spare-threads
+最大线程数 max-threads
+当线程数达到最大时,接受排队的请求个数,默认值为100,和max-threqad设置的差不多一样大 accept-count
+
+jvm运行参数
+java 
+-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC -jar /jar包路径 
+
+-XX:MetaspaceSize=128m （元空间默认大小）
+-XX:MaxMetaspaceSize=128m （元空间最大大小）
+-Xms1024m (堆最大大小)
+-Xmx1024m (堆默认大小)
+-Xmn256m (新生代大小)
+-Xss256k (栈最大深度大小)
+-XX:SurvivorRatio=8 (新生代分区比例 8:2)
+-XX:+UseConcMarkSweepGC (指定使用的垃圾收集器，这里使用CMS收集器)
+
+
+springboot idea打包方式 
+打包依赖
+
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+		</plugin>
+	</plugins>
+</build>
+
+点开maven的右边栏 点击小闪电 去掉test
+
+install 打包即可
+后台启动使用 nohup java -jar  xxxxxx.jar  >/dev/null 2>&1 &
+
+jvm参数启动
+
+nohup java -jar -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC newframe-1.0.0.jar  >/dev/null 2>&1 &
+
+>/dev/null 表示将标准输出信息重定向到"黑洞"
+2>&1 表示将标准错误重定向到标准输出(由于标准输出已经定向到“黑洞”了，即：标准输出此时也是"黑洞"，再将标准错误输出定向到标准输出，相当于错误输出也被定向至“黑洞”)
+
+项目停止
+引入健康检查
+<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
