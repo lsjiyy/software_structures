@@ -35,8 +35,8 @@ install 打包即可
 后台启动使用 nohup java -jar  xxxxxx.jar  >/dev/null 2>&1 &
 
 jvm参数启动
-
-nohup java -jar -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC newframe-1.0.0.jar  >/dev/null 2>&1 &
+多环境版本启动
+nohup java -jar -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1024m -Xmn256m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC newframe-1.0.0.jar --spring.profiles.active=dev  >/dev/null 2>&1 &
 
 >/dev/null 表示将标准输出信息重定向到"黑洞"
 2>&1 表示将标准错误重定向到标准输出(由于标准输出已经定向到“黑洞”了，即：标准输出此时也是"黑洞"，再将标准错误输出定向到标准输出，相当于错误输出也被定向至“黑洞”)
@@ -47,4 +47,11 @@ nohup java -jar -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms1024m -Xmx1
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
+
+
+需要配置 
+ 地址和端口以防外网使用
+ 
+ 可以写个脚本
+curl -X POST "http://localhost:port/nemesis/shutdown"
 
