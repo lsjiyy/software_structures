@@ -1,0 +1,5 @@
+win10下环境变量
+添加java_home
+JAVA_HOME E:\Java\jdk1.8.0_151
+配置到path中
+%JAVA_HOME%\bin
