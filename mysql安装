@@ -1,0 +1,48 @@
+chown -R mysql:mysql /usr/local/software/mysql
+
+chown -R mysql:mysql /var/lib/mysql
+
+chmod -R 755 /usr/local/software/mysql
+
+cd /usr/local/software/mysql/bin
+
+./mysqld --initialize --user=mysql --datadir=/usr/local/software/mysql/data --basedir=/usr/local/software/mysql
+
+tqdo#cv_y80G
+
+chown -R mysql:mysql /usr/local/software/mysql
+
+
+ yum -y install numactl
+
+/usr/local/software/mysql/support-files/mysql.server start
+
+mkdir /var/log/mariadb
+touch /var/log/mariadb/mariadb.log
+
+chown -R mysql:mysql  /var/log/mariadb/
+
+   mkdir   /var/lib/mysql
+   
+   chown -R mysql:mysql /var/lib/mysql
+   
+   chmod -R 755 /var/lib/mysql
+
+
+ln -s /usr/local/software/mysql/support-files/mysql.server /etc/init.d/mysql 
+
+ln -s /usr/local/software/mysql/bin/mysql /usr/bin/mysql
+
+set password for root@localhost = password('lsjyy0527');
+
+
+cp /usr/local/software/mysql/support-files/mysql.server /etc/init.d/mysqld
+
+
+create user 'develop'@'%' identified by 'lsjyy0527';
+
+grant all privileges on *.* to 'develop'@'%' identified by 'lsjyy0527' ;
+
+grant all privileges on *.* to 'develop'@'%' identified by 'lsjyy0527' WITH GRANT OPTION;
+
+
